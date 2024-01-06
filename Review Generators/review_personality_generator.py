@@ -3,12 +3,9 @@
 # pip install openai
 import openai
 
-personality_prompts = {}
-key_words = ["novelty", "nature", "climate change"]
-
-if __name__ == '__main__':
-
-    openai.api_key = "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"
+def get_personality_prompt_dict(key_words):
+    personality_prompts = {}
+    openai.api_key = "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"
 
     for key in key_words:
 
@@ -24,4 +21,8 @@ if __name__ == '__main__':
         )
         ai_response = response["choices"][0]["text"]
         personality_prompts[key] = ai_response
+        #print(key, ai_response)
+    return personality_prompts
 
+#key_words = ["novelty", "nature", "climate change"]  # Get from front end
+#get_personality_prompt_dict(key_words)
