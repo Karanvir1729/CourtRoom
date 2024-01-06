@@ -1,30 +1,18 @@
 #pip install openai
 import openai
+import  review_personality_generator
 
-if __name__ == '__main__':
-    history = ""
-    openai.api_key = "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"
-    p = input("Hi! Hru?")
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=p,
-        temperature=0,
-        max_tokens=150,
-        top_p=1.0,
-        frequency_penalty=1,
-        presence_penalty=1
-    )
-    ai_response = response["choices"][0]["text"]
-    print(ai_response)
-    history += f"me: {p}\n"
-    history += f"friend: {ai_response}\n"
-    while p != "bye":
-        p = input()
-        history += f"me: {p}\n"
-        history += "friend:"
+def get_OpenAI_review_dict(personalities, key_words, solution):
+    reviews = {}
+    openai.api_key = "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"
+
+
+    for key, value in personalities.items():
+
+        p = f"Suppose that you are a person with this description {value}, now write a review from your perspective about: {solution}"
         response = openai.Completion.create(
             model="text-davinci-003",
-            prompt=history,
+            prompt=p,
             temperature=0,
             max_tokens=150,
             top_p=1.0,
@@ -32,5 +20,12 @@ if __name__ == '__main__':
             presence_penalty=1
         )
         ai_response = response["choices"][0]["text"]
-        print(ai_response)
-        history += f" {ai_response}\n"
+        reviews[key] = ai_response
+        #print(key, ai_response)
+    return reviews
+
+key_words = ["novelty", "nature", "climate change", "convinence"]  # Get from front end
+personalities = review_personality_generator.get_personality_prompt_dict(key_words)
+solution= "Ban all plastic products. "
+out = get_OpenAI_review_dict(personalities, key_words, solution)
+print(out["convinence"])
