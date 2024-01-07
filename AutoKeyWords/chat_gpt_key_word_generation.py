@@ -2,22 +2,25 @@
 # Goal is to make chat gpt create personalities that are highly biased towards the key words.
 # pip install openai
 from openai import OpenAI
-
-client = OpenAI(api_key="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")
 import re
 
 
+
+#
 def get_auto_key_words(problem, solution):
+    client = OpenAI(api_key="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")
     keywords = []
-    p = f" extract the main single topics (not verbs for example) words seperated by space from  this text: {problem}.{solution}"
-    response = client.completions.create(model="text-davinci-003",
-    prompt=p,
-    temperature=0,
-    max_tokens=150,
-    top_p=1.0,
-    frequency_penalty=1,
-    presence_penalty=1)
-    ai_response = response["choices"][0]["text"]
+
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo-1106",
+        response_format={"type": "text"},
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant designed to output a list of extract the main single topics (not verbs for example) words seperated by space "},
+            {"role": "user", "content": f"Extract the list from  this text: {problem}.{solution}."}
+        ]
+    )
+
+    ai_response = response.choices[0].message.content
     ai_response = re.sub(r'\n', '', ai_response)
 
     keywords += ai_response.split(" ")

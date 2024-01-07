@@ -8,20 +8,38 @@ Original file is located at
 
 import cohere
 import os
+import CSV_output
 from cohere.responses.classify import Example
 
-co = cohere.Client('cOL5L8qHbfPK78SVMkOiKkU8tkZntE6UJL1d7jnk')  # This is your trial API key
+def get_scores(reviews):
+    co = cohere.Client('cOL5L8qHbfPK78SVMkOiKkU8tkZntE6UJL1d7jnk')  # This is your trial API key
 
-txt_file1 = 'modifiedtxt1.txt'
-examples = []
-with open(txt_file1, 'r') as file:
-    for line in file:
-        parts = line.strip().split(',')
-        if len(parts) == 2:
-            examples.append(Example(parts[0], parts[1]))
-inputs = ["circular economy is not always good for the customers"]
-response = co.classify(
-    model='embed-english-v3.0',
-    inputs=inputs,
-    examples=examples)
-print('The confidence levels of the labels are: {}'.format(response.classifications))
+    txt_file1 = 'modifiedtxt1.txt'
+    examples = []
+    with open(txt_file1, 'r') as file:
+        for line in file:
+            parts = line.strip().split(',')
+            if len(parts) == 2:
+                examples.append(Example(parts[0], parts[1]))
+
+    response = co.classify(
+        model='embed-english-v3.0',
+        inputs=reviews,
+        examples=examples)
+    scores = [i.labels['"positive"'].confidence - i.labels['"negative"'].confidence for i in response.classifications]
+    return scores
+
+reviews = ["circular economy is not always good for the customers", "dogs are cute"]
+scores = get_scores(reviews)
+avj = sum(scores)/len(scores)
+problem = "abc"
+solution = "xyz"
+str = 'Good'
+if avj < 0:
+    str = 'Bad'
+new_data = [
+    {"Problem": problem, "Solution": solution, "AVJ": avj, "Reviews": reviews, "good/bad": str},
+    # Add more data as needed
+]
+
+CSV_output.add_to_csv(new_data)
