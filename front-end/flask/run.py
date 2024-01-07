@@ -57,6 +57,52 @@ def word_suggestions():
     words = ["novelty", "nature", "climate change", "technology", "innovation", "health", "science"]
     return jsonify(words)
 
+@app.route('/process_problem_solution', methods=['POST'])
+def process_problem_solution():
+    data = request.get_json()
+    keywords = data.get('keywords', [])
+    problem = data.get('problem', 'No problem statement provided')
+    solution = data.get('solution', 'No solution statement provided')
+
+    # Perform a simple calculation
+    calculation_result = 1 + 1
+
+    return jsonify({
+        "status": "success",
+        "message": "Calculation performed",
+        "keywords": keywords,
+        "problem": problem,
+        "solution": solution,
+        "calculation_result": calculation_result
+    })
+
+# Calculation!!!!
+@app.route('/perform_calculation', methods=['POST'])
+def perform_calculation():
+    data = request.get_json()
+    keywords = data['keywords']
+    problem = data.get('problem', 'No problem statement provided')
+    solution = data.get('solution', 'No solution statement provided')
+
+    # Print received data on the terminal for debugging
+    print(f"Received Data - Keywords: {keywords}, Problem: {problem}, Solution: {solution}")
+
+    # Perform a simple calculation
+    calculation_result = 1 + 1
+
+    return jsonify({
+        "status": "success",
+        "message": "Calculation performed",
+        "keywords": keywords,
+        "problem": problem,
+        "solution": solution,
+        "calculation_result": calculation_result
+    })
+
+
+
+
+
 @app.route('/search', methods=['POST'])
 def search():
     search_id = request.form.get('search_id')
@@ -72,6 +118,7 @@ def search():
     current_user = {'is_authenticated': False}
 
     return render_template('next.html', result=result, current_user=current_user)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
