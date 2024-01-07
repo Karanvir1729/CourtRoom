@@ -62,7 +62,7 @@ def search():
     search_id = request.form.get('search_id')
     result = None
 
-    with open(os.path.join('uploads', '/Users/rakanalalami/CourtRoom/flask-atlantis-dark/uploads/AI_EarthHack_Dataset.csv'), newline='') as csvfile:
+    with open(os.path.join('uploads', 'AI_EarthHack_Dataset.csv'), newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             if row['id'] == search_id:
