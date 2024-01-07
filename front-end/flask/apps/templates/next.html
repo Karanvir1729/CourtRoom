@@ -26,6 +26,20 @@
         border-radius: 15px;
         transition: width 0.5s ease;
     }
+    .keyword-bubble {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        margin: 5px;
+        font-size: 14px;
+    }
+    .delete-keyword {
+        margin-left: 5px;
+        color: white;
+        cursor: pointer;
+    }
 </style>
 {% endblock stylesheets %}
 
@@ -92,16 +106,82 @@
                     </div>
                 </div>
             </div>
-            {% endif %}
-            <div class="progress-bar-container">
-                <div class="progress-bar">25%</div>
+
+            <!-- Keyword bubbles section -->
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="keywords">Enter Keywords</label>
+                                <input type="text" class="form-control" id="keywordInput" placeholder="Type and press enter">
+                                <div id="keywordsList" class="mt-3">
+                                    <!-- Keyword bubbles will be added here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            {% endif %}
+            
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar" style="width: 25%;">25%</div>
         </div>
     </div>
+</div>
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
     <!-- Atlantis DEMO methods, don't include it in your project! -->
+    <script>
+        function progressBar() {
+        const progressBar = document.getElementById('progressBar');
+        let progress = 25;
+        const interval = setInterval(function() {
+            if (progress >= 50) {
+                clearInterval(interval); // Stop the interval when it reaches 50
+            } else {
+                progress += 5; // Increment progress by 5
+                progressBar.style.width = progress + '%';
+                progressBar.textContent = progress + '%';
+            }
+        }, 500); // Update progress every half second
+    }
+        document.addEventListener('DOMContentLoaded', function() {
+            const keywordsList = document.getElementById('keywordsList');
+            const keywordInput = document.getElementById('keywordInput');
+            if (document.querySelector(".row.mt-4")) {
+                   progressBar(); // Call this function only if search results are displayed
+                 }
+    
+            keywordInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    const keyword = keywordInput.value.trim();
+    
+                    if (keyword) {
+                        const bubble = document.createElement('span');
+                        bubble.className = 'keyword-bubble';
+                        bubble.textContent = keyword;
+    
+                        const deleteIcon = document.createElement('span');
+                        deleteIcon.className = 'delete-keyword';
+                        deleteIcon.textContent = '✕';
+                        deleteIcon.onclick = function() {
+                            keywordsList.removeChild(bubble);
+                        };
+    
+                        bubble.appendChild(deleteIcon);
+                        keywordsList.appendChild(bubble);
+                        keywordInput.value = ''; // Clear the input field
+                    }
+                }
+            });
+        });
+
+    </script>
+    <!-- Atlantis DEMO methods, don't include it in your project! -->
     <script src="/static/assets/js/setting-demo2.js"></script>
-{% endblock javascripts %}
+    {% endblock javascripts %}
