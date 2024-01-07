@@ -13,7 +13,7 @@ def get_OpenAI_review_dict(personalities, key_words, solution):
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt=p,
-            temperature=0,
+            temperature=2,
             max_tokens=150,
             top_p=1.0,
             frequency_penalty=1,
