@@ -1,0 +1,251 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Business Evaluator {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    .custom-file-upload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+    .custom-file-upload:hover {
+        background-color: #0056b3;
+    }
+    /*.page-inner {
+        margin-top: 70px;
+    }
+    */
+    /*.form-group {
+        margin-bottom: 15px;
+    }
+     The following styles are related to keyword functionality,
+       which has been commented out as per your request.
+    .keyword-bubble {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        margin: 5px;
+        font-size: 14px;
+    }
+    .delete-keyword {
+        margin-left: 5px;
+        color: white;
+        cursor: pointer;
+    }
+    */
+    .loading-popup {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .loading-content {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .spinner {
+        border: 4px solid #f3f3f3; /* Light grey background */
+        border-top: 4px solid #495057; /* Dark spinner color */
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* New Styles for Progress Bar and Additional Button */
+    .progress-bar-container {
+        width: 100%;
+        background-color: transparent; /* Transparent background */
+        margin: 20px 0;
+        display: none; /* Initially hidden */
+        align-items: center;
+        justify-content: center;
+        border-radius: 15px; /* Rounded corners for the container */
+        overflow: hidden; /* Ensures the inner bar's corners are also rounded */
+    }
+
+    .progress-bar {
+        height: 30px;
+        width: 0;
+        background-color: #32CD32; /* Neon Green */
+        text-align: center;
+        line-height: 30px;
+        color: white;
+        transition: width 0.5s ease; /* Smooth transition for width change */
+        border-radius: 10px; /* Rounded corners for the progress bar */
+    }
+
+    .form-group {
+        text-align: center; /* Center the buttons */
+    }
+    .custom-file-upload, .btn-primary {
+        background-color: #007bff; /* Blue background */
+        color: white;
+        border: 1px solid #0056b3; /* Blue border */
+        padding: 10px 15px;
+        margin: 5px; /* Space between buttons */
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-block; /* Align buttons in line */
+        font-size: 16px; /* Uniform font size */
+        text-align: center;
+    }
+    .custom-file-upload:hover, .btn-primary:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+    .file-selected {
+        background-color: #32CD32; /* Neon Green */
+        border-color: #28a745; /* Darker green border */
+    }
+    input[type="file"] {
+        display: none; /* Hide the actual file input */
+    }
+    .extra-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        margin-left: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: none; /* Initially hidden */
+    }
+    .extra-button:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="content">
+    <div class="page-inner">
+        <div class="page-header">
+            <h4 class="page-title">Selection</h4>
+            <ul class="breadcrumbs">
+                <li class="nav-home">
+                    <a href="#">
+                        <i class="flaticon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Start</a>
+                </li>
+                <li class="separator">
+                    <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Selection</a>
+                </li>
+            </ul>
+        </div>
+    <div class="card">
+        <div class="card-body">
+            <!-- Form for File Upload -->
+            <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="file-upload" class="custom-file-upload">
+                        <i class="fa fa-cloud-upload"></i> Choose CSV File
+                    </label>
+                    <input id="file-upload" type="file" name="file" accept=".csv"/>
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary" id="submit-button" disabled>Submit</button>
+                    <!-- Additional Button Next to Choose CSV File -->
+                    <button type="button" class="extra-button" id="extraButton">Extra Action</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Progress Bar Container -->
+    <div class="progress-bar-container" id="progressBarContainer">
+        <div class="progress-bar" id="progressBar">0%</div>
+    </div>
+
+    <div id="loadingPopup" class="loading-popup" style="display:none;">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Loading, please wait...</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('uploadForm');
+    const progressBarContainer = document.getElementById('progressBarContainer');
+    const progressBar = document.getElementById('progressBar');
+    const extraButton = document.getElementById('extraButton');
+    const fileInput = document.getElementById('file-upload');
+    const fileLabel = document.querySelector('label[for="file-upload"]');
+    const submitButton = document.getElementById('submit-button');
+
+    fileInput.addEventListener('change', function() {
+        if (fileInput.files.length > 0 && isValidCSVFile(fileInput.files[0])) {
+            fileLabel.classList.add('file-selected'); // Change color to neon green
+            submitButton.disabled = false; // Enable the submit button
+        } else {
+            fileLabel.classList.remove('file-selected'); // Revert to original color
+            submitButton.disabled = true; // Disable the submit button
+        }
+    });
+
+    function isValidCSVFile(file) {
+        const fileExtension = file.name.split('.').pop().toLowerCase();
+        return fileExtension === 'csv';
+    }
+
+    function showProgressBar() {
+        progressBarContainer.style.display = 'flex';
+        let progress = 0;
+        const interval = setInterval(function() {
+            if (progress >= 25) {
+                clearInterval(interval); // Stop the interval when it reaches 25%
+                //extraButton.style.display = 'inline-block'; // Show the extra button
+                submitButton.style.display = 'none'; // Hide the submit button
+                fileLabel.style.display = 'none'; // Hide the choose file label/button
+
+                // Redirect to next.html
+                window.location.href = "{{ url_for('next_page') }}";
+            } else {
+                progress += 5; // Increment progress by 5
+                progressBar.style.width = progress + '%';
+                progressBar.textContent = progress + '%';
+            }
+        }, 500); // Update progress every half second
+    }
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        showProgressBar();
+        // Additional logic for form submission can be added here
+    });
+});
+</script>
+{% endblock javascripts %}

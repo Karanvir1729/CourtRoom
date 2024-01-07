@@ -1,0 +1,91 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Maps {% endblock %} 
+
+
+<style>
+	.progress-bar-container {
+		width: 100%;
+		background-color: transparent;
+		margin: 20px 0;
+		display: flex; /* Change this to 'none' if you want to hide it initially */
+		align-items: center;
+		justify-content: center;
+		border-radius: 15px;
+		overflow: hidden;
+	}
+
+	.progress-bar {
+		height: 30px;
+		width: 25%; /* Start with 25% width */
+		background-color: #32CD32; /* Neon Green */
+		text-align: center;
+		line-height: 30px;
+		color: white;
+		border-radius: 15px;
+		transition: width 0.5s ease;
+	}
+</style>
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<div class="content">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card card-transparent">
+					<div class="card-header">
+						<h4 class="card-title text-center">
+							Vector Maps
+						</h4>
+						<p class="card-category text-center">
+							Looks great on any resolution. Made by our friends from <a href="https://www.10bestdesign.com/jqvmap/">jQuery Vector Maps</a>.
+						</p>
+					</div>
+					<div class="card-body">
+						<div class="col-md-10 ml-auto mr-auto">
+							<div class="mapcontainer">
+								<div id="map-example" class="vmap" style="height: 400px"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+	<!-- Atlantis DEMO methods, don't include it in your project! -->
+	<script src="/static/assets/js/setting-demo2.js"></script>
+	<script>
+		$('#map-example').vectorMap(
+		{
+			map: 'world_en',
+			backgroundColor: 'transparent',
+			borderColor: '#fff',
+			borderWidth: 2,
+			color: '#e4e4e4',
+			enableZoom: true,
+			hoverColor: '#35cd3a',
+			hoverOpacity: null,
+			normalizeFunction: 'linear',
+			scaleColors: ['#b6d6ff', '#005ace'],
+			selectedColor: '#35cd3a',
+			selectedRegions: ['ID', 'RU', 'US', 'AU'],
+			showTooltip: true,
+			onRegionClick: function(element, code, region)
+			{
+				return false;
+			},
+			onResize: function (element, width, height) {
+				console.log('Map Size: ' +  width + 'x' +  height);
+			},
+		});
+	</script>
+
+{% endblock javascripts %}
