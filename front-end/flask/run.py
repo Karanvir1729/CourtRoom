@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, jso
 from werkzeug.utils import secure_filename
 import csv
 import os
-
+from Review_Generators.OpenAI_review_generators import get_OpenAI_review_dict
 app = Flask(__name__, 
             template_folder='apps/templates',  # Correct path to your templates
             static_folder='apps/static')       # Correct path to your static files
@@ -62,6 +62,9 @@ def word_suggestions():
 def perform_calculation():
     data = request.get_json()
     keywords = data['keywords']
+    lst = ["novelty", "nature", "climate change", "convinence"]
+    for i in lst:
+        keywords.append(i)
     problem = data.get('problem', 'No problem statement provided')
     solution = data.get('solution', 'No solution statement provided')
 
@@ -69,7 +72,11 @@ def perform_calculation():
     print(f"Received Data - Keywords: {keywords}, Problem: {problem}, Solution: {solution}")
 
     # Put function here!
-    calculation_results = [get_personalities(keyword, problem, solution, gpt=0) for keyword in keywords]
+    #calculation_results = [get_personalities(keyword, problem, solution, gpt=0) for keyword in keywords]
+    #key_words = ["novelty", "nature", "climate change", "convinence"]  # Get from front end
+    out = get_OpenAI_review_dict(keywords, solution, problem)
+    calculation_results = [i for i in out.values()]
+
 
     return jsonify({
         "status": "success",
