@@ -48,30 +48,31 @@ def generate_review(personalities, user_input):
   return reviews
    
 
-def generate_replicate_review(key_words, pr):
-
+def generate_replicate_review(key_words, problem, solution):
+  prompt = "Provide a short two sentence review of what you think about this problem solution pair. Start your answer with 'The proposed solution'."
+  user_input = prompt + problem + solution
   personalities = generate_personalities(key_words)
-  reviews = generate_review(personalities, prompt)
+  reviews = generate_review(personalities, user_input)
 
   return reviews
    
 
-
 if __name__ == "__main__":
   key_words = ["novelty", "nature", "profitability"]
-  prompt = "Provide a short two sentence review of what you think about this problem solution pair. Start your answer with 'The proposed solution'. \
-  Problem: \"The construction industry is indubitably one of the significant contributors to global waste, \
+  prompt = "Provide a short two sentence review of what you think about this problem solution pair. Start your answer with 'The proposed solution'."
+  problem = "Problem: \"The construction industry is indubitably one of the significant contributors to global waste, \
   contributing approximately 1.3 billion tons of waste annually, exerting significant pressure on our landfills and natural resources. \
-  Traditional construction methods entail single-use designs that require frequent demolitions, leading to resource depletion and wastage. \" \
-  Solution: \"Herein, we propose an innovative approach to mitigate this problem: Modular Construction. This method embraces recycling and reuse, taking a significant stride \
+  Traditional construction methods entail single-use designs that require frequent demolitions, leading to resource depletion and wastage."
+  
+  solution = "Solution: \ Herein, we propose an innovative approach to mitigate this problem: Modular Construction. This method embraces recycling and reuse, taking a significant stride \
   towards a circular economy.   Modular construction involves utilizing engineered components in a manufacturing facility that are later assembled on-site. These components are designed for easy disassembling,\
   enabling them to be reused in diverse projects, thus significantly reducing waste and conserving resources.  Not only does this method decrease construction waste by up to 90%, \
   but it also decreases construction time by 30-50%, optimizing both environmental and financial efficiency. This reduction in time corresponds to substantial financial savings for businesses.\
   Moreover, the modular approach allows greater flexibility, adapting to changing needs over time.  We believe, by adopting modular construction, the industry can transit from a 'take, make and dispose' model to a \
   more sustainable 'reduce, reuse, and recycle' model, driving the industry towards a more circular and sustainable future. The feasibility of this concept is already being proven in markets around the globe, indicating its potential for \
-  scalability and real-world application.\""
+  scalability and real-world application."
 
   prompt1 = "Provide a short two sentence review of what you think about this problem solution pair. Start your answer with 'The proposed solution'.Problem: Plastics in the ocean, Solution: Biodegradable plastics "
 
-  generate_replicate_review(key_words, prompt1)
+  generate_replicate_review(key_words, problem, solution)
 
