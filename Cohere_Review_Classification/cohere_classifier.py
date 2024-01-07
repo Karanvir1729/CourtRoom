@@ -8,6 +8,7 @@ Original file is located at
 
 import cohere
 import os
+import CSV_output
 from cohere.responses.classify import Example
 
 def get_scores(reviews):
@@ -31,3 +32,11 @@ def get_scores(reviews):
 reviews = ["circular economy is not always good for the customers", "dogs are cute"]
 scores = get_scores(reviews)
 avj = sum(scores)/len(scores)
+problem = "abc"
+solution = "xyz"
+new_data = [
+    {"Problem": problem, "Solution": solution, "AVJ": avj, "Reviews": reviews},
+    # Add more data as needed
+]
+
+CSV_output.add_to_csv(new_data)
