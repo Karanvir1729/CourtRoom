@@ -25,4 +25,4 @@ def get_personality_prompt_dict(key_words):
     return personality_prompts
 
 key_words = ["novelty", "nature", "climate change"]  # Get from front end
-get_personality_prompt_dict(key_words)
+print(get_personality_prompt_dict(key_words))
