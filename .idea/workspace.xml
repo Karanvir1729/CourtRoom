@@ -4,6 +4,12 @@
     <list default="true" id="773a11c2-db30-435c-877e-3729c0afa97a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/flask/Review Generators/OpenAI_review_generators.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/flask/Review Generators/cohere_web_connect_personality.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/flask/Review Generators/cohere_web_connect_review.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/flask/Review Generators/openAI_review_personality_generator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/flask/Review Generators/replicate_review_generator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/flask/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/flask/run.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,6 +132,9 @@
       <module name="CourtRoom" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/front-end/flask" />
       <option name="IS_MODULE_SDK" value="true" />
