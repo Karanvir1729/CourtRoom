@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="773a11c2-db30-435c-877e-3729c0afa97a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cohere_Review_Classification/CSV_output.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cohere_Review_Classification/CSV_output.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cohere_Review_Classification/cohere_classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/Cohere_Review_Classification/cohere_classifier.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AutoKeyWords/chat_gpt_key_word_generation.py" beforeDir="false" afterPath="$PROJECT_DIR$/AutoKeyWords/chat_gpt_key_word_generation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cohere_Review_Classification/output.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Cohere_Review_Classification/output.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,7 +38,7 @@
       <recent name="C:\Users\14163\CourtRoom\Review Generators" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.CSV_output">
+  <component name="RunManager" selected="Python.chat_gpt_key_word_generation">
     <configuration name="CSV_output" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="CourtRoom" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -80,9 +79,6 @@
       <module name="CourtRoom" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/AutoKeyWords" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -138,10 +134,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.CSV_output" />
-        <item itemvalue="Python.OpenAI_review_generators" />
-        <item itemvalue="Python.OpenAI_review_generators" />
-        <item itemvalue="Python.cohere_web_connect_personality" />
+        <item itemvalue="Python.chat_gpt_key_word_generation" />
+        <item itemvalue="Python.chat_gpt_key_word_generation" />
+        <item itemvalue="Python.chat_gpt_key_word_generation" />
+        <item itemvalue="Python.chat_gpt_key_word_generation" />
         <item itemvalue="Python.chat_gpt_key_word_generation" />
       </list>
     </recent_temporary>
