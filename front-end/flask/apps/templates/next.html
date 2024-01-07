@@ -118,9 +118,9 @@
                             <div class="card-title">Search Result</div>
                         </div>
                         <div class="card-body">
-                            <p><strong>Problem:</strong> {{ result.problem }}</p>
-                            <p><strong>Solution:</strong> {{ result.solution }}</p>
-                        </div>
+                            <p><strong>Problem:</strong> <span class="problem">{{ result.problem }}</span></p>
+                            <p><strong>Solution:</strong> <span class="solution">{{ result.solution }}</span></p>
+                        </div>                        
                     </div>
                 </div>
             </div>
@@ -143,27 +143,34 @@
             </div>
 
             <div class="form-check">
-                <label>Choose a GPT to complete analysis</label><br/>
-                <label class="form-radio-label">
-                    <input class="form-radio-input" type="radio" name="optionsRadios" value=""  checked="">
-                    <span class="form-radio-sign">OpenAI</span>
-                </label>
-                <label class="form-radio-label ml-3">
-                    <input class="form-radio-input" type="radio" name="optionsRadios" value="">
-                    <span class="form-radio-sign">Cohere (with webconnection)</span>
-                </label>
-                <label class="form-radio-label ml-3">
-                    <input class="form-radio-input" type="radio" name="optionsRadios" value="">
-                    <span class="form-radio-sign">Replicate</span>
-                </label>
-            </div>
-            <div id="popupContainer" class="popup-container">
-                <div id="popupContent" class="popup-content">
-                    <!-- Popup content will go here -->
+                <div class="form-group">
+                    <label class="form-label">Choose a GPT to complete analysis </label>
+                    <div class="selectgroup selectgroup-pills">
+                        <label class="selectgroup-item">
+                            <input type="checkbox" name="value" value="HTML" class="selectgroup-input" checked="">
+                            <span class="selectgroup-button">OpenAI</span>
+                        </label>
+                        <label class="selectgroup-item">
+                            <input type="checkbox" name="value" value="CSS" class="selectgroup-input">
+                            <span class="selectgroup-button">Cohere (with webconnection)</span>
+                        </label>
+                        <label class="selectgroup-item">
+                            <input type="checkbox" name="value" value="PHP" class="selectgroup-input">
+                            <span class="selectgroup-button">Replicate</span>
+                        </label>
+                    </div>
                 </div>
             </div>
             
             <button class="btn btn-success mt-3" onclick="triggerPopup()">Analyse</button>
+            
+            <div id="popupContainer">
+                <div id="popupContent">
+                    <!-- Popup content will go here -->
+                </div>
+            </div>
+            
+            <!--<button class="btn btn-success mt-3" onclick="triggerPopup()">Analyse</button> -->
             {% endif %}
             
         <div class="progress-bar-container">
@@ -179,46 +186,70 @@
 
     <script>
     function triggerPopup() {
-        var keywords = [];
-        document.querySelectorAll('.keyword-bubble').forEach(function(bubble) {
-            keywords.push(bubble.textContent.replace('✕', '').trim());
-        });
-        var selectedGPT = document.querySelector('input[name="optionsRadios"]:checked + .form-radio-sign').textContent;
-        showPopup(keywords, selectedGPT);
+    var keywords = [];
+    document.querySelectorAll('.keyword-bubble').forEach(function(bubble) {
+        keywords.push(bubble.textContent.replace('✕', '').trim());
+    });
+
+    var problem = document.querySelector('.card-body .problem').textContent;
+    var solution = document.querySelector('.card-body .solution').textContent;
+
+    // Continue with your existing code...
+    showPopup(keywords, problem, solution); // Adjust the parameters as needed
     }
 
-    function showPopup(keywords, selection) {
+
+    function showPopup(keywords, problem, solution, calculationResult) {
         const popupContainer = document.getElementById('popupContainer');
         const popupContent = document.getElementById('popupContent');
-        popupContent.innerHTML = '<h4>Analysis Configuration</h4>' +
-                                 '<p><strong>Keywords:</strong> ' + keywords.join(', ') + '</p>' +
-                                 '<p><strong>Selected GPT:</strong> ' + selection + '</p>' +
-                                 '<button onclick="closePopup()">Close</button>';
+        
+        let innerHtmlContent = `
+            <div class="col-md-12">
+                <div class="card full-height">
+                    <div class="card-header">
+                        <div class="card-title">Analysis Configuration</div>
+                    </div>
+                    <div class="card-body">
+                        <ol class="activity-feed">
+                            ${keywords.map(keyword => `<li class="feed-item"><span class="text">Keyword: ${keyword}</span></li>`).join('')}
+                            <li class="feed-item"><span class="text">Problem Statement: ${problem}</span></li>
+                            <li class="feed-item"><span class="text">Solution Statement: ${solution}</span></li>
+                            <li class="feed-item"><span class="text">Calculation Result: ${calculationResult}</span></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>`;
+        
+        popupContent.innerHTML = innerHtmlContent;
         popupContainer.style.display = 'flex';
     }
 
+
+
+
+
     function closePopup() {
         document.getElementById('popupContainer').style.display = 'none';
-    }
-        function progressBar() {
-        const progressBar = document.getElementById('progressBar');
-        let progress = 25;
-        const interval = setInterval(function() {
-            if (progress >= 50) {
-                clearInterval(interval); // Stop the interval when it reaches 50
-            } else {
-                progress += 5; // Increment progress by 5
-                progressBar.style.width = progress + '%';
-                progressBar.textContent = progress + '%';
-            }
-        }, 500); // Update progress every half second
-    }
+        }
+            function progressBar() {
+            const progressBar = document.getElementById('progressBar');
+            let progress = 25;
+            const interval = setInterval(function() {
+                if (progress >= 50) {
+                    clearInterval(interval); // Stop the interval when it reaches 50
+                } else {
+                    progress += 5; // Increment progress by 5
+                    progressBar.style.width = progress + '%';
+                    progressBar.textContent = progress + '%';
+                }
+            }, 500); // Update progress every half second
+        }
         document.addEventListener('DOMContentLoaded', function() {
             const keywordsList = document.getElementById('keywordsList');
             const keywordInput = document.getElementById('keywordInput');
             if (document.querySelector(".row.mt-4")) {
-                   progressBar(); // Call this function only if search results are displayed
-                 }
+                progressBar(); // Call this function only if search results are displayed
+                }
 
                  
             keywordInput.addEventListener('keydown', function(event) {
