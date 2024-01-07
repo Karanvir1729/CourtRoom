@@ -2,8 +2,10 @@ from flask import Flask, render_template, request, flash, redirect, url_for, jso
 from werkzeug.utils import secure_filename
 import csv
 import os
+from Review_Generators.OpenAI_review_generators import get_OpenAI_review_dict
 
-app = Flask(__name__, 
+
+app = Flask(__name__,
             template_folder='apps/templates',  # Correct path to your templates
             static_folder='apps/static')       # Correct path to your static files
 
@@ -85,10 +87,14 @@ def perform_calculation():
     solution = data.get('solution', 'No solution statement provided')
 
     # Print received data on the terminal for debugging
-    print(f"Received Data - Keywords: {keywords}, Problem: {problem}, Solution: {solution}")
+    #print(f"Received Data - Keywords: {keywords}, Problem: {problem}, Solution: {solution}")
 
-    # Perform a simple calculation
-    calculation_result = 1 + 1
+
+    #get_OpenAI_review_dict(key_words, solution, problem)
+    key_words = ["novelty", "nature", "climate change", "convinence"]  # Get from front end
+    out = get_OpenAI_review_dict(key_words, solution, problem)
+
+    calculation_result = out["convinence"]
 
     return jsonify({
         "status": "success",
