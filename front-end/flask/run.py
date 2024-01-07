@@ -57,25 +57,6 @@ def word_suggestions():
     words = ["novelty", "nature", "climate change", "technology", "innovation", "health", "science"]
     return jsonify(words)
 
-@app.route('/process_problem_solution', methods=['POST'])
-def process_problem_solution():
-    data = request.get_json()
-    keywords = data.get('keywords', [])
-    problem = data.get('problem', 'No problem statement provided')
-    solution = data.get('solution', 'No solution statement provided')
-
-    # Perform a simple calculation
-    calculation_result = 1 + 1
-
-    return jsonify({
-        "status": "success",
-        "message": "Calculation performed",
-        "keywords": keywords,
-        "problem": problem,
-        "solution": solution,
-        "calculation_result": calculation_result
-    })
-
 # Calculation!!!!
 @app.route('/perform_calculation', methods=['POST'])
 def perform_calculation():
@@ -87,8 +68,8 @@ def perform_calculation():
     # Print received data on the terminal for debugging
     print(f"Received Data - Keywords: {keywords}, Problem: {problem}, Solution: {solution}")
 
-    # Perform a simple calculation
-    calculation_result = 1 + 1
+    # Put function here!
+    calculation_results = [get_personalities(keyword, problem, solution, gpt=0) for keyword in keywords]
 
     return jsonify({
         "status": "success",
@@ -96,8 +77,15 @@ def perform_calculation():
         "keywords": keywords,
         "problem": problem,
         "solution": solution,
-        "calculation_result": calculation_result
+        "calculation_result": calculation_results
     })
+
+
+def get_personalities(keyword, problem, solution, gpt):
+    # Implement your logic here
+    # This is a placeholder return
+    out = get_OpenAI_review_dict(key_words, solution, problem)
+    calculation_result = out["convinence"]
 
 
 
@@ -108,15 +96,18 @@ def search():
     search_id = request.form.get('search_id')
     result = None
 
-    with open(os.path.join('uploads', 'AI_EarthHack_Dataset.csv'), newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            if row['id'] == search_id:
-                result = row
-                break
-    # Create a dummy current_user object
-    current_user = {'is_authenticated': False}
+    try:
+        with open(os.path.join('uploads', 'AI_EarthHack_Dataset.csv'), newline='', encoding='ISO-8859-1') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                if row['id'] == search_id:
+                    result = row
+                    break
+    except UnicodeDecodeError as e:
+        print(f"Error reading CSV: {e}")
+        # Handle the error appropriately
 
+    current_user = {'is_authenticated': False}
     return render_template('next.html', result=result, current_user=current_user)
 
 
