@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="773a11c2-db30-435c-877e-3729c0afa97a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AutoKeyWords/chat_gpt_key_word_generation.py" beforeDir="false" afterPath="$PROJECT_DIR$/AutoKeyWords/chat_gpt_key_word_generation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cohere_Review_Classification/output.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Cohere_Review_Classification/output.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Review Generators/OpenAI_review_generators.py" beforeDir="false" afterPath="$PROJECT_DIR$/Review Generators/OpenAI_review_generators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Review Generators/review_personality_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/Review Generators/review_personality_generator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
