@@ -34,8 +34,11 @@ scores = get_scores(reviews)
 avj = sum(scores)/len(scores)
 problem = "abc"
 solution = "xyz"
+str = 'Good'
+if avj < 0:
+    str = 'Bad'
 new_data = [
-    {"Problem": problem, "Solution": solution, "AVJ": avj, "Reviews": reviews},
+    {"Problem": problem, "Solution": solution, "AVJ": avj, "Reviews": reviews, "good/bad": str},
     # Add more data as needed
 ]
 

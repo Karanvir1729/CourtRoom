@@ -18,7 +18,7 @@ def add_to_csv(new_data):
 
     # Append data to CSV file
     with open(csv_file_path, 'a', newline='') as file:
-        fieldnames = ["Problem", "Solution", "AVJ", "Reviews"]
+        fieldnames = ["Problem", "Solution", "AVJ", "Reviews", "good/bad"]
         writer = csv.DictWriter(file, fieldnames=fieldnames)
 
         # Write header if the file is created now
