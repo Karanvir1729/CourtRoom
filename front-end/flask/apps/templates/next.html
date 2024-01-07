@@ -1,0 +1,107 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Forms {% endblock %} 
+
+{% block stylesheets %}
+<!-- Specific Page CSS goes HERE  -->
+<style>
+    .progress-bar-container {
+        width: 100%;
+        background-color: transparent;
+        margin: 20px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        height: 30px;
+        width: 25%; /* Start with 25% width */
+        background-color: #32CD32; /* Neon Green */
+        text-align: center;
+        line-height: 30px;
+        color: white;
+        border-radius: 15px;
+        transition: width 0.5s ease;
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+    <div class="content">
+        <div class="page-inner">
+            <div class="page-header">
+                <h4 class="page-title">Selection</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="#">
+                            <i class="flaticon-home"></i>
+                        </a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Start</a>
+                    </li>
+                    <li class="separator">
+                        <i class="flaticon-right-arrow"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Selection</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- Form group with input icon -->
+                            <form action="{{ url_for('search') }}" method="post">
+                                <div class="form-group">
+                                    <div class="input-icon">
+                                        <input type="text" class="form-control" name="search_id" placeholder="Enter ID...">
+                                        <span class="input-icon-addon">
+                                            <i class="fa fa-search"></i>
+                                        </span>
+                                    </div>
+                                    <button class="btn btn-success mt-3">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-action">
+                            <!-- Optional card actions -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Section for displaying results -->
+            {% if result %}
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Search Result</div>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Problem:</strong> {{ result.problem }}</p>
+                            <p><strong>Solution:</strong> {{ result.solution }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <div class="progress-bar-container">
+                <div class="progress-bar">25%</div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <!-- Atlantis DEMO methods, don't include it in your project! -->
+    <script src="/static/assets/js/setting-demo2.js"></script>
+{% endblock javascripts %}
