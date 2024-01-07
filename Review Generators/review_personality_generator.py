@@ -14,7 +14,7 @@ def get_personality_prompt_dict(key_words):
             model="text-davinci-003",
             prompt=p,
             temperature=0,
-            max_tokens=150,
+            max_tokens=1000,
             top_p=1.0,
             frequency_penalty=1,
             presence_penalty=1

@@ -10,6 +10,7 @@ import cohere
 import os
 from cohere.responses.classify import Example
 
+
 co = cohere.Client('cOL5L8qHbfPK78SVMkOiKkU8tkZntE6UJL1d7jnk')  # This is your trial API key
 
 txt_file1 = 'modifiedtxt1.txt'
@@ -19,7 +20,7 @@ with open(txt_file1, 'r') as file:
         parts = line.strip().split(',')
         if len(parts) == 2:
             examples.append(Example(parts[0], parts[1]))
-inputs = ["circular economy is not always good for the customers"]
+inputs = ["circular economy is not always good for the customers", "dogs are cute"]
 response = co.classify(
     model='embed-english-v3.0',
     inputs=inputs,

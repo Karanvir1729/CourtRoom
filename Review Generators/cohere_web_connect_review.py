@@ -1,31 +1,23 @@
-#pip install openai
-import openai
-import  review_personality_generator
-
-def get_OpenAI_review_dict(personalities, key_words, solution):
+import cohere
+import  cohere_web_connect_personality
+def get_cohere_review_dict( key_words, solution):
     reviews = {}
-    openai.api_key = "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"
-
-
+    co = cohere.Client('cOL5L8qHbfPK78SVMkOiKkU8tkZntE6UJL1d7jnk')  # This is your trial API key
+    personalities = cohere_web_connect_personality.get_personality_prompt_dict(key_words)
     for key, value in personalities.items():
-
-        p = f"Suppose that you are a person with this description {value}, now write a review from your perspective about: {solution}"
-        response = openai.Completion.create(
-            model="text-davinci-003",
-            prompt=p,
-            temperature=2,
-            max_tokens=150,
-            top_p=1.0,
-            frequency_penalty=1,
-            presence_penalty=1
-        )
-        ai_response = response["choices"][0]["text"]
-        reviews[key] = ai_response
-        #print(key, ai_response)
+        message = f"Suppose that you are a person with this description {value[0]}, now write a review from your perspective about: {solution}"
+        response = co.chat(
+            message,
+            model="command-light",  # using light version since the normal one is taking 4 times longer
+            temperature=0.7,
+            citation_quality='accurate',
+            connectors=[{"id": "web-search"}]
+            )
+        ai_response = response.text
+        urls = [i['url'] for i in response.documents]
+        reviews[key] = (ai_response, urls)
     return reviews
-
 key_words = ["novelty", "nature", "climate change", "convinence"]  # Get from front end
-personalities = review_personality_generator.get_personality_prompt_dict(key_words)
 solution= "Ban all plastic products. "
-out = get_OpenAI_review_dict(personalities, key_words, solution)
+out = get_cohere_review_dict( key_words, solution)
 print(out["convinence"])
