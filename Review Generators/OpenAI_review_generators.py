@@ -1,6 +1,6 @@
 #pip install openai
 from openai import OpenAI
-import  review_personality_generator
+import  openAI_review_personality_generator
 
 def get_OpenAI_review_dict(key_words, solution):
     reviews = {}
