@@ -10,19 +10,24 @@ import cohere
 import os
 from cohere.responses.classify import Example
 
+def get_scores(reviews):
+    co = cohere.Client('cOL5L8qHbfPK78SVMkOiKkU8tkZntE6UJL1d7jnk')  # This is your trial API key
 
-co = cohere.Client('cOL5L8qHbfPK78SVMkOiKkU8tkZntE6UJL1d7jnk')  # This is your trial API key
+    txt_file1 = 'modifiedtxt1.txt'
+    examples = []
+    with open(txt_file1, 'r') as file:
+        for line in file:
+            parts = line.strip().split(',')
+            if len(parts) == 2:
+                examples.append(Example(parts[0], parts[1]))
 
-txt_file1 = 'modifiedtxt1.txt'
-examples = []
-with open(txt_file1, 'r') as file:
-    for line in file:
-        parts = line.strip().split(',')
-        if len(parts) == 2:
-            examples.append(Example(parts[0], parts[1]))
-inputs = ["circular economy is not always good for the customers", "dogs are cute"]
-response = co.classify(
-    model='embed-english-v3.0',
-    inputs=inputs,
-    examples=examples)
-print('The confidence levels of the labels are: {}'.format(response.classifications))
+    response = co.classify(
+        model='embed-english-v3.0',
+        inputs=reviews,
+        examples=examples)
+    scores = [i.labels['"positive"'].confidence - i.labels['"negative"'].confidence for i in response.classifications]
+    return scores
+
+reviews = ["circular economy is not always good for the customers", "dogs are cute"]
+scores = get_scores(reviews)
+avj = sum(scores)/len(scores)
