@@ -76,32 +76,29 @@ def process_problem_solution():
         "calculation_result": calculation_result
     })
 
-
+# Calculation!!!!
 @app.route('/perform_calculation', methods=['POST'])
 def perform_calculation():
     data = request.get_json()
     keywords = data['keywords']
     problem = data.get('problem', 'No problem statement provided')
     solution = data.get('solution', 'No solution statement provided')
-    body: JSON.stringify({ 
-    keywords: keywords, 
-    problem: yourProblemVariable, 
-    solution: yourSolutionVariable 
-})
 
-
+    # Print received data on the terminal for debugging
+    print(f"Received Data - Keywords: {keywords}, Problem: {problem}, Solution: {solution}")
 
     # Perform a simple calculation
     calculation_result = 1 + 1
 
     return jsonify({
-        "status": "success", 
-        "message": "Calculation performed", 
-        "keywords": keywords, 
-        "problem": problem, 
+        "status": "success",
+        "message": "Calculation performed",
+        "keywords": keywords,
+        "problem": problem,
         "solution": solution,
         "calculation_result": calculation_result
     })
+
 
 
 

@@ -187,42 +187,63 @@
     <script>
     function triggerPopup() {
     var keywords = [];
-    document.querySelectorAll('.keyword-bubble').forEach(function(bubble) {
-        keywords.push(bubble.textContent.replace('✕', '').trim());
-    });
-
     var problem = document.querySelector('.card-body .problem').textContent;
     var solution = document.querySelector('.card-body .solution').textContent;
 
-    // Continue with your existing code...
-    showPopup(keywords, problem, solution); // Adjust the parameters as needed
-    }
+    fetch('/perform_calculation', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ keywords: keywords, problem: problem, solution: solution })
+    })
+    .then(response => response.json())
+    .then(data => {
+        showPopup(data.keywords, data.problem, data.solution, data.calculation_result);
+    })
+    .catch(error => console.error('Error:', error));
+}
 
-
+// Added here
     function showPopup(keywords, problem, solution, calculationResult) {
-        const popupContainer = document.getElementById('popupContainer');
-        const popupContent = document.getElementById('popupContent');
-        
-        let innerHtmlContent = `
-            <div class="col-md-12">
-                <div class="card full-height">
-                    <div class="card-header">
-                        <div class="card-title">Analysis Configuration</div>
-                    </div>
-                    <div class="card-body">
+    const popupContainer = document.getElementById('popupContainer');
+    const popupContent = document.getElementById('popupContent');
+    
+    let innerHtmlContent = `
+        <div class="col-md-12">
+            <div class="card full-height">
+                <div class="card-header">
+                    <div class="card-title">Analysis Configuration</div>
+                </div>
+                <div class="card-body">
+                    <form id="calculationForm" action="{{ url_for('perform_calculation') }}" method="post">
+                        <input type="hidden" name="keywords" value="${keywords.join(',')}">
+                        <input type="hidden" name="problem" value="${problem}">
+                        <input type="hidden" name="solution" value="${solution}">
+                        <input type="hidden" name="calculationResult" value="${calculationResult}">
                         <ol class="activity-feed">
                             ${keywords.map(keyword => `<li class="feed-item"><span class="text">Keyword: ${keyword}</span></li>`).join('')}
                             <li class="feed-item"><span class="text">Problem Statement: ${problem}</span></li>
                             <li class="feed-item"><span class="text">Solution Statement: ${solution}</span></li>
                             <li class="feed-item"><span class="text">Calculation Result: ${calculationResult}</span></li>
                         </ol>
-                    </div>
+                        <button type="submit" class="btn btn-primary">Perform Calculation</button>
+                    </form>
                 </div>
-            </div>`;
-        
-        popupContent.innerHTML = innerHtmlContent;
-        popupContainer.style.display = 'flex';
-    }
+            </div>
+        </div>`;
+
+    popupContent.innerHTML = innerHtmlContent;
+    popupContainer.style.display = 'flex';
+
+    // Attach an event listener to the form for submission
+    const calculationForm = document.getElementById('calculationForm');
+    calculationForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        // Here, you can add any additional logic if needed before submitting the form
+        // Then, submit the form
+        calculationForm.submit();
+    });
+}
+
 
 
 
