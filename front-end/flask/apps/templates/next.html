@@ -191,11 +191,22 @@
         });
         var problem = document.querySelector('.card-body .problem').textContent;
         var solution = document.querySelector('.card-body .solution').textContent;
+        let openaiSelected = document.querySelector('input[name="value"][value="HTML"]').checked;
+    let cohereSelected = document.querySelector('input[name="value"][value="CSS"]').checked;
+    let replicateSelected = document.querySelector('input[name="value"][value="PHP"]').checked;
+
 
         fetch('/perform_calculation', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ keywords: keywords, problem: problem, solution: solution })
+            body: JSON.stringify({ 
+            keywords: keywords, 
+            problem: problem, 
+            solution: solution,
+            openai: openaiSelected,
+            cohere: cohereSelected,
+            replicate: replicateSelected
+        })
         })
         .then(response => response.json())
         .then(data => {

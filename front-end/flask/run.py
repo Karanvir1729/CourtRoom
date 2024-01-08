@@ -67,14 +67,22 @@ def perform_calculation():
         keywords.append(i)
     problem = data.get('problem', 'No problem statement provided')
     solution = data.get('solution', 'No solution statement provided')
+    openai_selected = data.get('openai', False)
+    cohere_selected = data.get('cohere', False)
+    replicate_selected = data.get('replicate', False)
 
     # Print received data on the terminal for debugging
-    print(f"Received Data - Keywords: {keywords}, Problem: {problem}, Solution: {solution}")
+    print(f"Received Data - Keywords: {keywords}, Problem: {problem}, Solution: {solution}, OpenAI: {openai_selected}, Cohere: {cohere_selected}, Replicate: {replicate_selected}")
+
+
+    # Print received data on the terminal for debugging
+    #print(f"Received Data - Keywords: {keywords}, Problem: {problem}, Solution: {solution}")
 
     # Put function here!
     #calculation_results = [get_personalities(keyword, problem, solution, gpt=0) for keyword in keywords]
     #key_words = ["novelty", "nature", "climate change", "convinence"]  # Get from front end
-    out = get_OpenAI_review_dict(keywords, solution, problem)
+    if (openai_selected):
+        out = get_OpenAI_review_dict(keywords, solution, problem)
     calculation_results = [i for i in out.values()]
 
 
@@ -85,7 +93,10 @@ def perform_calculation():
         "problem": problem,
         "solution": solution,
         "calculation_result": calculation_results
+        
     })
+
+
 
 
 def get_personalities(keyword, problem, solution, gpt):
