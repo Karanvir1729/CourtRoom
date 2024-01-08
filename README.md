@@ -59,12 +59,12 @@ The review generator too utilizes the Cohere Coral's Command-light model with co
 -gpt-3.5 turbo(personalities, review generation)
 -replicate
 
-SUBMISSION DATA BELOWWW
+SUBMISSION DATA BELOW
 
 Team info-
 Saurodeep Majumdar - sdmajumd@uwaterloo.ca
 Ayush Khanna - ayushkhanna29@gmail.com
-Karanvir Khanna, 
+Karanvir Khanna karanvir.khanna@mail.utoronto.ca, 
 Rakan- rakan.alalami@mail.mcgill.ca
 
 
