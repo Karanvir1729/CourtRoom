@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="773a11c2-db30-435c-877e-3729c0afa97a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front-end/flask/Review_Generators/replicate_review_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/flask/Review_Generators/replicate_review_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/flask/Cohere_Review_Classification/cohere_classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/flask/Cohere_Review_Classification/cohere_classifier.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/flask/Cohere_Review_Classification/modifiedtxt1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/front-end/flask/Review_Generators/cohere_web_connect_review.py" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/flask/Review_Generators/cohere_web_connect_review.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front-end/flask/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/front-end/flask/run.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

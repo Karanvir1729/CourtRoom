@@ -3,7 +3,9 @@ from werkzeug.utils import secure_filename
 import csv
 import os
 from Review_Generators.OpenAI_review_generators import get_OpenAI_review_dict
+from Review_Generators.cohere_web_connect_review import get_cohere_review_dict
 from Review_Generators.replicate_review_generator import generate_replicate_review
+from Cohere_Review_Classification.cohere_classifier import get_scores
 from AutoKeyWords.chat_gpt_key_word_generation import get_auto_key_words
 
 app = Flask(__name__, 
@@ -96,6 +98,14 @@ def perform_calculation():
     if(replicate_selected): # check if we are allowed to use replicate
         out = generate_replicate_review(keywords, problem, solution)
         calculation_results += [i for i in out.values()]  # input replicate reviews
+
+    if (cohere_selected):  # check if we are allowed to use replicate
+        out = get_cohere_review_dict(keywords, problem, solution)
+        calculation_results += [f"{i[0]} \n Sources {' '.join(i[1])}"  for i in out.values()]  # input replicate reviews
+
+    scores = get_scores(calculation_results)
+    string_list = ' '.join(map(str, scores))
+    calculation_results[-1] += string_list
 
     return jsonify({
         "status": "success",
