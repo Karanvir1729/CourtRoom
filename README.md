@@ -3,7 +3,7 @@ This would not only provide a wider perspective but also add a human touch.
 
 Set Up instructions
 1. Clone the repo
-2. Get Cohere, Open AI , and Replicate API keys. Replace the current ones as they do not work for obious reasons.
+2. Get Cohere, Open AI , and Replicate API keys. Replace the current ones as they do not work for obious reasons. Look at Review_Generators folder and change the api keys in the review generation files.
 3. Pip install the dependencies in a venv. flask, openai, cohere, replicate, and requirements.txt
 4. Run the run.py located in frontend
 5. provide an input csv like given in the hackathon dataset (id, problem, solution)
