@@ -3,6 +3,9 @@ from werkzeug.utils import secure_filename
 import csv
 import os
 from Review_Generators.OpenAI_review_generators import get_OpenAI_review_dict
+from Review_Generators.replicate_review_generator import generate_replicate_review
+from AutoKeyWords.chat_gpt_key_word_generation import get_auto_key_words
+
 app = Flask(__name__, 
             template_folder='apps/templates',  # Correct path to your templates
             static_folder='apps/static')       # Correct path to your static files
@@ -62,11 +65,15 @@ def word_suggestions():
 def perform_calculation():
     data = request.get_json()
     keywords = data['keywords']
-    lst = ["novelty", "nature", "climate change", "convinence"]
-    for i in lst:
-        keywords.append(i)
     problem = data.get('problem', 'No problem statement provided')
     solution = data.get('solution', 'No solution statement provided')
+
+    #lst = get_auto_key_words(problem, solution)[0:5:2]  # only first 5 auto key words, skipping 1, , rest on the user
+    lst = [get_auto_key_words(problem, solution)[0]]  # only first 5 auto key words, skipping 1, , rest on the user
+
+    for i in lst:
+        keywords.append(i)
+    print(f"LISSSST{lst}")
     openai_selected = data.get('openai', False)
     cohere_selected = data.get('cohere', False)
     replicate_selected = data.get('replicate', False)
@@ -81,10 +88,14 @@ def perform_calculation():
     # Put function here!
     #calculation_results = [get_personalities(keyword, problem, solution, gpt=0) for keyword in keywords]
     #key_words = ["novelty", "nature", "climate change", "convinence"]  # Get from front end
-    if (openai_selected):
+    calculation_results = []
+    if (openai_selected): # check if we are allowed to use chatgpt
         out = get_OpenAI_review_dict(keywords, solution, problem)
-    calculation_results = [i for i in out.values()]
+        calculation_results += [i for i in out.values()]  # input chatgpt reviews
 
+    if(replicate_selected): # check if we are allowed to use replicate
+        out = generate_replicate_review(keywords, problem, solution)
+        calculation_results += [i for i in out.values()]  # input replicate reviews
 
     return jsonify({
         "status": "success",

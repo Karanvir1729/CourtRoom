@@ -1,5 +1,5 @@
 import replicate
-
+import os
 def run_replicate(system_prompt, prompt):
   replicate.Client(api_token='r8_LKN7bmUUerXR2u5TC2PD84J2h5xPRZA4g5bYl')
   output = replicate.run(
@@ -49,6 +49,7 @@ def generate_review(personalities, user_input):
    
 
 def generate_replicate_review(key_words, problem, solution):
+  os.environ["REPLICATE_API_TOKEN"] = "r8_LKN7bmUUerXR2u5TC2PD84J2h5xPRZA4g5bYl"
   prompt = "Provide a short two sentence review of what you think about this problem solution pair. Start your answer with 'The proposed solution'."
   user_input = prompt + problem + solution
   personalities = generate_personalities(key_words)
